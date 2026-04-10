@@ -94,23 +94,23 @@ pub fn init(level: Level) -> Result<(), SetGlobalDefaultError> {
         set_global_default(reg)
     }
 
-    #[cfg(not(target_arch = "wasm32"))]
-    {
-        let sub = tracing_subscriber::FmtSubscriber::builder()
-            .with_max_level(level)
-            .with_env_filter(
-                tracing_subscriber::EnvFilter::builder()
-                    .with_default_directive(level.into())
-                    .from_env_lossy()
-                    .add_directive("hyper_util=warn".parse().unwrap()), // hyper has `debug!` sitting around in some places that are spammy
-            );
+    // #[cfg(not(target_arch = "wasm32"))]
+    // {
+    //     let sub = tracing_subscriber::FmtSubscriber::builder()
+    //         .with_max_level(level)
+    //         .with_env_filter(
+    //             tracing_subscriber::EnvFilter::builder()
+    //                 .with_default_directive(level.into())
+    //                 .from_env_lossy()
+    //                 .add_directive("hyper_util=warn".parse().unwrap()), // hyper has `debug!` sitting around in some places that are spammy
+    //         );
 
-        if !dioxus_cli_config::is_cli_enabled() {
-            return set_global_default(sub.finish());
-        }
+    //     if !dioxus_cli_config::is_cli_enabled() {
+    //         return set_global_default(sub.finish());
+    //     }
 
-        // todo(jon): this is a small hack to clean up logging when running under the CLI
-        // eventually we want to emit everything as json and let the CLI manage the parsing + display
-        set_global_default(sub.without_time().with_target(false).finish())
-    }
+    //     // todo(jon): this is a small hack to clean up logging when running under the CLI
+    //     // eventually we want to emit everything as json and let the CLI manage the parsing + display
+    //     set_global_default(sub.without_time().with_target(false).finish())
+    // }
 }
