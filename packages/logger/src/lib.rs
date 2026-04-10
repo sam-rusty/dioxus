@@ -113,4 +113,5 @@ pub fn init(level: Level) -> Result<(), SetGlobalDefaultError> {
     //     // eventually we want to emit everything as json and let the CLI manage the parsing + display
     //     set_global_default(sub.without_time().with_target(false).finish())
     // }
+    Ok(())
 }
